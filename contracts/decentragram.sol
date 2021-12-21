@@ -38,13 +38,13 @@ contract Decentragram {
         public
     {
         //+-Make sure the image hash exists:_
-        require(bytes(_imgHash).length > 0);
+        require(bytes(_imgHash).length > 0, "Image should not be null");
 
         //+-Make sure image description exists:_
-        require(bytes(_description).length > 0);
+        require(bytes(_description).length > 0, "Description should not be null");
 
         //+-Make sure uploader address exists:_
-        require(msg.sender != address(0));
+        // require(msg.sender != address(0));
 
         //+-Increment image id:_
         imageCount++;
