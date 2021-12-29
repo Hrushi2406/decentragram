@@ -40,6 +40,18 @@ class Navbar extends Component {
               <span></span>
             )}
           </li>
+          <input
+            id="search"
+            type="text"
+            ref={(input) => {
+              this.searchText = input;
+            }}
+            onChange={(e) =>
+              this.props.search(e.target.value, e.target.value.length != 0)
+            }
+            // className="form-control"
+            placeholder="Search"
+          />
         </ul>
       </nav>
     );
