@@ -4,11 +4,24 @@ pragma solidity ^0.8.9;
 contract Decentragram {
     string public name;
     uint256 public imageCount = 0;
+
+
     mapping(uint256 => Image) public images;
+    mapping(address => uint256) public followersCount;
+    mapping(address => uint256) public followingCount;
+    mapping(address => address[]) public followers;
+    mapping(address => address[]) public following;
+    mapping(uint256 => Tip[]) public tips;
+
+    struct Tip {
+      uint256 amount;
+      address tipper;
+    }
 
     struct Image {
         uint256 id;
         string hash;
+        string category;
         string description;
         uint256 tipAmount;
         address payable author;
@@ -17,6 +30,7 @@ contract Decentragram {
     event ImageCreated(
         uint256 id,
         string hash,
+        string category,
         string description,
         uint256 tipAmount,
         address payable author
@@ -34,7 +48,17 @@ contract Decentragram {
         name = "Decentragram";
     }
 
-    function uploadImage(string memory _imgHash, string memory _description)
+
+    function followSingle(address followingAddress) public {
+        
+        followersCount[followingAddress] = followersCount[followingAddress]+1;
+        followers[followingAddress].push(msg.sender);
+
+        followingCount[msg.sender] = followingCount[msg.sender]+1;
+        following[msg.sender].push(followingAddress);        
+    }
+
+    function uploadImage(string memory _imgHash, string memory _description,string memory _category)
         public
     {
         //+-Make sure the image hash exists:_
@@ -53,6 +77,7 @@ contract Decentragram {
         images[imageCount] = Image(
             imageCount,
             _imgHash,
+            _category,
             _description,
             0,
             payable(msg.sender)
@@ -63,6 +88,7 @@ contract Decentragram {
         emit ImageCreated(
             imageCount,
             _imgHash,
+            _category,
             _description,
             0,
             payable(msg.sender)
@@ -88,6 +114,9 @@ contract Decentragram {
 
         //+-Update the image:_
         images[_id] = _image;
+
+        // Add to Tips
+        tips[_id].push(Tip(msg.value,msg.sender));
 
         //+-Trigger an event:_
         emit ImageTipped(
