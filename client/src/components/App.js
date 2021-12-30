@@ -111,10 +111,10 @@ class App extends Component {
         });
       }
       // Sort images. Show highest tipped images first
-      this.setState({
-        images: this.state.images.sort((a, b) => b.tipAmount - a.tipAmount),
-        tips: this.state.tips.sort((a, b) => a.amount > b.amount),
-      });
+      // this.setState({
+      //   images: this.state.images.sort((a, b) => b.tipAmount - a.tipAmount),
+      //   tips: this.state.tips.sort((a, b) => a.amount > b.amount),
+      // });
       this.setState({ loading: false });
       console.log(this.state);
     } else {
