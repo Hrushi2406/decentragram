@@ -5,17 +5,17 @@ contract Decentragram {
     string public name;
     uint256 public imageCount = 0;
 
-
     mapping(uint256 => Image) public images;
     mapping(address => uint256) public followersCount;
     mapping(address => uint256) public followingCount;
     mapping(address => address[]) public followers;
     mapping(address => address[]) public following;
     mapping(uint256 => Tip[]) public tips;
+    mapping(uint256 => uint256) public tipCount;
 
     struct Tip {
-      uint256 amount;
-      address tipper;
+        uint256 amount;
+        address tipper;
     }
 
     struct Image {
@@ -48,24 +48,27 @@ contract Decentragram {
         name = "Decentragram";
     }
 
-
     function followSingle(address followingAddress) public {
-        
-        followersCount[followingAddress] = followersCount[followingAddress]+1;
+        followersCount[followingAddress] = followersCount[followingAddress] + 1;
         followers[followingAddress].push(msg.sender);
 
-        followingCount[msg.sender] = followingCount[msg.sender]+1;
-        following[msg.sender].push(followingAddress);        
+        followingCount[msg.sender] = followingCount[msg.sender] + 1;
+        following[msg.sender].push(followingAddress);
     }
 
-    function uploadImage(string memory _imgHash, string memory _description,string memory _category)
-        public
-    {
+    function uploadImage(
+        string memory _imgHash,
+        string memory _description,
+        string memory _category
+    ) public {
         //+-Make sure the image hash exists:_
         require(bytes(_imgHash).length > 0, "Image should not be null");
 
         //+-Make sure image description exists:_
-        require(bytes(_description).length > 0, "Description should not be null");
+        require(
+            bytes(_description).length > 0,
+            "Description should not be null"
+        );
 
         //+-Make sure uploader address exists:_
         // require(msg.sender != address(0));
@@ -116,7 +119,9 @@ contract Decentragram {
         images[_id] = _image;
 
         // Add to Tips
-        tips[_id].push(Tip(msg.value,msg.sender));
+        tips[_id].push(Tip(msg.value, msg.sender));
+
+        tipCount[_id]++;
 
         //+-Trigger an event:_
         emit ImageTipped(

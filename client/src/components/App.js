@@ -99,12 +99,15 @@ class App extends Component {
         for (var j = 0; j < tipCount; j++) {
           let tip = await decentragram.methods.tips(i, j).call();
           tips.push(tip);
+          this.setState({
+            tips: [...this.state.tips, tip],
+          });
         }
 
         this.setState({
           images: [...this.state.images, image],
           // tips: [...this.state.tips, tip],
-          tips: tips,
+          // tips: tips,
         });
       }
       // Sort images. Show highest tipped images first
@@ -217,7 +220,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.searchResults);
     return (
       <div>
         <Navbar account={this.state.account} search={this.search} />
