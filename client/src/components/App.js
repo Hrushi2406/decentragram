@@ -99,14 +99,14 @@ class App extends Component {
         for (var j = 0; j < tipCount; j++) {
           let tip = await decentragram.methods.tips(i, j).call();
           tips.push(tip);
-          this.setState({
-            tips: [...this.state.tips, tip],
-          });
+          //this.setState({
+          //   tips: [...this.state.tips, tip],
+          // });
         }
 
         this.setState({
           images: [...this.state.images, image],
-          // tips: [...this.state.tips, tip],
+          tips: [...this.state.tips, tips],
           // tips: tips,
         });
       }

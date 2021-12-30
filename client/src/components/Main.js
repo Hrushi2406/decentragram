@@ -101,7 +101,7 @@ class Main extends Component {
                           <p>{image.description}</p>
                         </li>
                         <li className="list-group-item">
-                          {this.props.tips.map((t, i) => (
+                          {this.props.tips[key].map((t, i) => (
                             <p key={i}>
                               {t.tipper} tipped
                               {" " +
@@ -164,7 +164,7 @@ class Main extends Component {
             <p key={i}>{f}</p>
           ))}
           <h4>Your Following</h4>
-          {this.props.followers.map((f, i) => (
+          {this.props.followings.map((f, i) => (
             <p key={i}>{f}</p>
           ))}
         </div>
